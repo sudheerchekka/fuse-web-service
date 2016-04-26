@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stocktradings>
+	<stocktrading>
+	  <customer>Red Hat</customer>
+	  <city>Mountain View</city>
+       </stocktrading>
+	<stocktrading>
+	  <customer>3Scale</customer>
+	  <city>SFO</city>
+       </stocktrading>
+	<stocktrading>
+	  <customer>FRB</customer>
+	  <city>SFO</city>
+       </stocktrading>
+</stocktradings>

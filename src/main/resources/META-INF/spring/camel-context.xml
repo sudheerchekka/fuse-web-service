@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configures the Camel Context-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:cxf="http://camel.apache.org/schema/cxf"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd">
+
+  <!-- here is a sample which processes the input files
+         (leaving them in place - see the 'noop' flag)
+         then performs content based routing on the message using XPath -->
+
+<cxf:cxfEndpoint id="stockEndPoint" address="http://localhost:8183/stock" />
+
+<camelContext xmlns="http://camel.apache.org/schema/spring">
+  <route id="fileRoute">
+    <from uri="file:src/data?noop=true"/>
+    <choice>
+      <when>
+        <xpath>/person/city = 'London'</xpath>
+        <log message="UK message"/>
+        <to uri="file:target/messages/uk"/>
+      </when>
+      <otherwise>
+        <log message="Other message"/>
+        <to uri="file:target/messages/others"/>
+      </otherwise>
+    </choice>
+  </route>
+  <route id="fileAndSOAPRoute">
+    <from uri="file:MultipleInput"/>
+    <from uri="cxf:bean:stockEndPoint?dataFormat=MESSAGE"/>
+    <split>
+      <tokenize token="stocktrading" xml="true"></tokenize>
+      <log message="Multiple ${body}"/>
+      <setHeader headerName="CamelFileName">
+        <simple>${date:now:yyyyMMddhhmmssSSS}-read.xml</simple>
+      </setHeader>
+      <to uri="file:InputDir"/>
+    </split>
+  </route>
+</camelContext>
+
+</beans>
