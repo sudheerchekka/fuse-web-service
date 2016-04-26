@@ -31,7 +31,7 @@
     </choice>
   </route>
   <route id="fileAndSOAPRoute">
-    <from uri="file:MultipleInput"/>
+    <from uri="file:src/multipleinput"/>
     <from uri="cxf:bean:stockEndPoint?dataFormat=MESSAGE"/>
     <split>
       <tokenize token="stocktrading" xml="true"></tokenize>
@@ -39,7 +39,7 @@
       <setHeader headerName="CamelFileName">
         <simple>${date:now:yyyyMMddhhmmssSSS}-read.xml</simple>
       </setHeader>
-      <to uri="file:InputDir"/>
+      <to uri="file:target/trades"/>
     </split>
   </route>
 </camelContext>
