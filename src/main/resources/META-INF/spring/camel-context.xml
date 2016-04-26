@@ -30,16 +30,27 @@
       </otherwise>
     </choice>
   </route>
-  <route id="fileAndSOAPRoute">
+  <route id="fileStocksRoute">
     <from uri="file:src/multipleinput"/>
-    <from uri="cxf:bean:stockEndPoint?dataFormat=MESSAGE"/>
     <split>
-      <tokenize token="stocktrading" xml="true"></tokenize>
+      <tokenize token="stock" xml="true"></tokenize>
       <log message="Multiple ${body}"/>
       <setHeader headerName="CamelFileName">
         <simple>${date:now:yyyyMMddhhmmssSSS}-read.xml</simple>
       </setHeader>
       <to uri="file:target/trades"/>
+    </split>
+  </route>
+  <route id="SOAPStocksRoute">
+    <from uri="file:src/multipleinput2"/>
+    <from uri="cxf:bean:stockEndPoint?dataFormat=MESSAGE"/>
+    <split>
+      <tokenize token="stock" xml="true"></tokenize>
+      <log message="Stock: ${body}"/>
+      <setHeader headerName="CamelFileName">
+        <simple>${date:now:yyyyMMddhhmmssSSS}-read.xml</simple>
+      </setHeader>
+      <to uri="file:target/soapTrades"/>
     </split>
   </route>
 </camelContext>

@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<stocktradings>
-	<stocktrading>
-	  <customer>Red Hat</customer>
-	  <city>Mountain View</city>
-       </stocktrading>
-	<stocktrading>
-	  <customer>3Scale</customer>
-	  <city>SFO</city>
-       </stocktrading>
-	<stocktrading>
-	  <customer>FRB</customer>
-	  <city>SFO</city>
-       </stocktrading>
-</stocktradings>
+<stocks customer="sam">
+	<stock>
+	  <ticker>RHT</ticker>
+	  <qty>100</qty>
+    </stock>
+	<stock>
+	  <ticker>MSFT</ticker>
+	  <qty>50</qty>
+    </stock>
+</stocks>
